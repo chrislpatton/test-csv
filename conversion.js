@@ -1,115 +1,87 @@
 
 
 
-/*
-for (var i = 0; i < lostOrders.length; i++) {
-  for (var j = 0; j < allOrders.length; j++) {
-    if(allOrders[j].order_id === lostOrders[i]) {
-      recovered.push(savedOrders[j]);
+function getLineItems(item) {
+
+  var all_items = [];
+  
+  for (var k=0; k < items.length; k++) { 
+  var size = items[k].Product_Code.split('-');
+  if(items[k].Order_ID === item){ 
+  if(items[k].Product_ID !== "Shipping" && items[k].Product_ID !=="Discount"){
+  var singleItem = {
+    sku: items[k].Product_Code,
+    name: items[k].Product_ID,
+    unitPrice: items[k].Unit_Price,
+    salePrice:items[k].Unit_Price,
+    quantity:items[k].Quantity,
+    totalPrice:items[k].Unit_Price,
+    shipping:0,
+    tax:0,
+    attributes: {
+      size:size[1]
     }
-  }
-}*/
-//console.log("Orders ", orders);
-//console.log("Items ", items);
-//var newCsv = [];
-
-/*var order = {
-              order_id: "RANGE-yhst-50863389838911-" + orderNum,
-              order_date: orderDate,
-              order_total: orderTotal,
-              order_discount: '',
-              order_tax: taxAmount,
-              order_shipping: shippingTotal,
-              contact: {
-                name: contactName,
-                billing: {
-                  company: '',
-                  street1: billStreet,
-                  street2: billStreet2,
-                  city: actualBillCity1,  
-                  state: actualBillState,
-                  zip: actualBillZip,
-                  country: country,
-                  country_iso: country
-                },
-                shipping: {
-                  company: '',
-                  street1: shipStreet,
-                  street2: shipStreet2,
-                  city: actualShipCity1,
-                  state: actualShipState,
-                  zip: actualShipZip,
-                  country: country,
-                  country_iso: country
-                },
-                people: {
-                  firstname: contactFirst,
-                  lastname: contactLast,
-                  email: contactEmail,
-                  phone: phoneNumber
-                }
-              },
-              line_items: 
-                allItems
-            };
-
-for (var i = 0; i < orders.length; i++) {
-   var newOrder = orders[i];
-  for (j = 0; j <items.length;j++) {
-   var line_items = []
-   var ln_items = {
-        sku: items[j].Product_Code,
-        name: items[j].Product_ID,
-        unitPrice: items[j].Unit_Price,
-        quantity: items[j].Quantity
-};
-    for (var k = 0; k < options.length; k++){  
-     var size = {
-      Size: options[k].Option_Value
-    }
-    ln_items.size = size;
-    line_items.push(ln_items);
-    //console.log(line_items);
-    newOrders.orderItems = line_items;
-    console.log(newOrders);
-  }
-  }
-
-}*/
-
-
-for (var i = 0; i < options.length; i++){
-  for (var j=0; j < items.length; j++) {
-  var line_items = [];
-  var item = {
-    sku: items[i].Product_Code,
-    name: items[i].Product_ID,
-    unitPrice: items[i].Unit_Price,
-    quantity:items[i].Quantity
-    }
-  if (options[i].Order_ID === items[j].Order_ID) {
-    var size = {
-     size: options[j].Option_Value
     };
-    item.size = size;
-    line_items.push(item);
-console.log(line_items);
-    }
+    
+    
+    all_items.push(singleItem);
+}    
+} 
+    
+   
   }
+ 
+
+ return all_items;
 }
 
 
 
+for (var i = 0; i < orders.length; i++) {
+  var fullName = orders[i].Name.split(' ')
+  var newOrder = {
+  order_id: "RANGE-yhst-50863389838911-" + orders[i].Order_ID,
+              order_date: orders[i].Date,
+              order_total: orders[i].Total,
+              order_discount: '$0.00',
+              order_tax: "$0.00",
+              order_shipping: orders[i].Shipping_Charge,
+              contact: {
+                name: orders[i].Name,
+                billing: {
+                  company: "",
+                  street1: orders[i].Bill_Address_1,
+                  street2: orders[i].Bill_Address_2,
+                  city: orders[i].Bill_City,  
+                  state: orders[i].Bill_State,
+                  zip: orders[i].Bill_Zip,
+                  country: orders[i].Bill_Country,
+                  country_iso: orders[i].Bill_Country
+                },
+                shipping: {
+                  company: '',
+                  street1: orders[i].Ship_Address_1,
+                  street2: orders[i].Ship_Address_2,
+                  city: orders[i].Ship_City,
+                  state: orders[i].Ship_State,
+                  zip: orders[i].Ship_Zip,
+                  country: orders[i].Ship_Country.slice(3),
+                  country_iso: orders[i].Ship_Country.slice(0,2)
+                },
+                people: {
+                  firstname: fullName[0],
+                  lastname: fullName[fullName.length-1],
+                  email: orders[i].Email,
+                  phone: orders[i].Ship_Phone
+                }
+              }
+              };
+            newOrder.line_items = getLineItems(orders[i].Order_ID)
+              console.log(newOrder);
+          }
+console.log(getLineItems(orders[3].Order_ID))          
 
 
-/*var fields = ['order_id', 'order_total', 'order_tax', 'order_shipping','contact.name','contact.billing.company','contact.billing.street1','contact.billing.street2', 'contact.billing.city','contact.billing.state','contact.billing.zip','contact.billing.country','contact.billing.country_iso','contact.shipping.company','contact.shipping.street1','contact.billing.street2', 'contact.shipping.street2','contact.shipping.city','contact.shipping.state','contact.shipping.zip','contact.shipping.country','contact.shipping.country_iso','contact.people.firstname','contact.people.lastname','contact.people.email','contact.people.phone','line_items[0].sku','line_items[0].name','line_items[0].description','line_items.category','line_items.other','line_items[0].unitPrice','line_items[0].salePrice','line_items[0].quantity','line_items[0].totalPrice','line_items[0].imageUrl','line_items[0].attributes.size'];
-
-
-var csv = json2csv({ data: recovered, fields: fields });
 
   
-$('#save-btn').click(function(){
-var blob = new Blob([csv],{type:'text/plain/charset=utf-8'});
-saveAs(blob,"testfile.csv");
-
-})*/
+  

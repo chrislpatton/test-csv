@@ -4,28 +4,28 @@ var options =[{
   "Product_ID": "nazarene",
   "Product_Code": "RU860-xxxl",
   "Option_Name": "Size",
-  "Option_Value": "3XL(+$1.50)"
+  "Option_Value": "3XL(+$1.50a)"
 }, {
   "Order_ID": "330901",
   "Line_ID": "2",
   "Product_ID": "mygod",
   "Product_Code": "UA058-xxxl",
   "Option_Name": "Size",
-  "Option_Value": "3XL(+$1.50)"
+  "Option_Value": "3XL(+$1.50b)"
 }, {
   "Order_ID": "330901",
   "Line_ID": "3",
   "Product_ID": "tribeshirt",
   "Product_Code": "RU1062-xxxl",
   "Option_Name": "Size",
-  "Option_Value": "3XL($1.50)"
+  "Option_Value": "3XL($1.50c)"
 }, {
   "Order_ID": "330901",
   "Line_ID": "4",
   "Product_ID": "texassparta",
   "Product_Code": "RU1060-xxxl",
   "Option_Name": "Size",
-  "Option_Value": "3XL($1.50)"
+  "Option_Value": "3XL($1.50d)"
 }, {
   "Order_ID": "330902",
   "Line_ID": "1",
